@@ -19,19 +19,19 @@
       <p
         v-show="domainName.length <= 7 && domainName !== ''"
         class="erroredMsg"> Domain name is less than 7 characters. </p>
-    </div>
+      <div class="submit-button-container">
+        <div
+          :class="[domainName.length <= 7 ? 'disabled' : '','submit-button large-round-button-green-filled clickable']"
+          @click="checkDomain">
+          <span v-show="!loading"> {{ $t('interface.checkDomain') }} </span>
+          <i
+            v-show="loading"
+            class="fa fa-spinner fa-spin"/>
+        </div>
 
-    <div class="submit-button-container">
-      <div
-        :class="[domainName.length <= 7 ? 'disabled' : '','submit-button large-round-button-green-filled clickable']"
-        @click="checkDomain">
-        <span v-show="!loading"> {{ $t('interface.checkDomain') }} </span>
-        <i
-          v-show="loading"
-          class="fa fa-spinner fa-spin"/>
       </div>
-
     </div>
+
     <div class="flex-container">
       <div class="title-container">
         <h4 class="modal-title">{{ $t('interface.subDomain') }}</h4>

@@ -1,15 +1,5 @@
 @import '~@/scss/GlobalVariables';
 
-.bootstrap-modal {
-  .modal-dialog {
-    width: 400px !important;
-  }
-}
-
-.ens-modal-body {
-  padding: 15px 35px;
-}
-
 .content-header {
   border-bottom: 1px dashed $light-grey-3;
   padding: 10px 0 15px;

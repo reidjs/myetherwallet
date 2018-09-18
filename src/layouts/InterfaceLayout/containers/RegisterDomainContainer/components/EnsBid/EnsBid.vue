@@ -1,6 +1,6 @@
 <template lang="html">
-  <div class="modal-container">
-    <div class="ens-modal-body">
+  <div>
+    <div>
       <div class="content-header">
         <div>
           <h3> {{ ensName }}.eth </h3>

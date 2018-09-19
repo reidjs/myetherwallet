@@ -62,7 +62,7 @@
           </div>
         </div>
       </div>
-      <div
+      <!-- <div
         ref="domainList"
         class="sub-domain-list hidden">
         <h4 class="title">{{ $t('interface.allSubDomains') }}</h4>
@@ -145,7 +145,7 @@
             </div>
           </li>
         </ul>
-      </div>
+      </div> -->
     </div>
     <interface-bottom-text
       :link-text="$t('interface.learnMore')"

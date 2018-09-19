@@ -1,7 +1,9 @@
-@import '~@/scss/GlobalVariables';
+@import '../../RegisterDomainContainer';
+
 
 .already-owned-container {
-  padding: 10px 50px 25px;
+  @extend %template-container;
+  padding-bottom: 25px;
 
   h3 {
     color: $red-5;
@@ -24,19 +26,6 @@
     .content {
       color: $dark-blue-1;
       font-size: 14px;
-    }
-  }
-
-  .button-container {
-    display: flex;
-    justify-content: center;
-    margin: 36px 0 25px;
-
-    button {
-      border-radius: 5px;
-      cursor: pointer;
-      padding: 20px;
-      width: 300px;
     }
   }
 }

@@ -8,7 +8,9 @@
       :bid-mask="bidMask"
       :secret-phrase="secretPhrase"
       :create-bid="createBid"
-      :ens-name="domainName"/>
+      :domain-name="domainName"
+      @updateSecretPhrase="updateSecretPhrase"
+    />
     <initial-state
       v-show="uiState === 'initial'"
       :domain-buy-button-click="domainBuyButtonClick"
@@ -17,8 +19,9 @@
       @domainNameChange="updateDomainName"
     />
     <name-forbidden
-      v-show="uiState === 'nameForbidden'"
-      :domain-name="domainName"
+      v-show="uiState === 'nameIsForbidden'"
+      :cancel="cancel"
+      domain-name="hellothere!"
     />
     <already-owned
       v-show="uiState === 'nameOwned'"
@@ -41,7 +44,7 @@ import InitialState from './components/InitialState';
 import AlreadyOwned from './components/AlreadyOwned';
 import EnsAbi from '@/helpers/ensAbi';
 import RegistrarAbi from '@/helpers/registrarAbi';
-import Misc from '@/helpers/misc';
+import { Wordlist, Misc } from '@/helpers';
 
 export default {
   components: {
@@ -92,7 +95,13 @@ export default {
       );
       const domainStatus = await auctionRegistrarContract.methods
         .entries(this.labelHash)
-        .call();
+        .call()
+        .then(res => {
+          return res;
+        })
+        .catch(err => {
+          console.log(err);
+        });
 
       this.processResult(domainStatus);
     },
@@ -111,6 +120,7 @@ export default {
       switch (res[0]) {
         case '0':
           this.loading = false;
+          this.generateKeyPhrase();
           this.uiState = 'nameAvailableAuctionNotStarted';
           break;
         case '1':
@@ -118,6 +128,7 @@ export default {
           console.log('Name is available and the auction has been started');
           break;
         case '2':
+          this.loading = false;
           this.getMoreInfo(res[1]);
           break;
         case '3':
@@ -138,10 +149,22 @@ export default {
       this.domainName = value;
     },
     async getMoreInfo(deedOwner) {
-      const owner = await this.$store.state.ens.owner(this.domainName + '.eth');
-      const resolverAddress = await this.$store.state.ens
-        .resolver(this.domainName + '.eth')
-        .resolverAddress();
+      let owner;
+      let resolverAddress;
+      try {
+        owner = await this.$store.state.ens.owner(this.domainName + '.eth');
+      } catch (e) {
+        owner = '0x';
+      }
+
+      try {
+        resolverAddress = await this.$store.state.ens
+          .resolver(this.domainName + '.eth')
+          .resolverAddress();
+      } catch (e) {
+        resolverAddress = '0x';
+      }
+
       this.nameHash = Misc.nameHash(
         this.domainName + '.eth',
         this.$store.state.web3
@@ -168,7 +191,23 @@ export default {
       this.deedOwner = '';
       this.secretPhrase = '';
     },
-    domainBuyButtonClick() {}
+    domainBuyButtonClick() {},
+    updateSecretPhrase(e) {
+      this.secretPhrase = e;
+    },
+    generateKeyPhrase() {
+      const wordsArray = [];
+      const min = 0;
+      const max = Wordlist.length;
+
+      for (let i = 0; i < 3; i++) {
+        wordsArray.push(
+          Wordlist[Math.floor(Math.random() * (max - min + 1)) + min]
+        );
+      }
+
+      this.secretPhrase = wordsArray.join(' ');
+    }
   }
 };
 </script>

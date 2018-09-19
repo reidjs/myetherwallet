@@ -1,5 +1,9 @@
 @import '~@/scss/GlobalVariables';
 
+%template-container {
+  padding: 24px 56px;
+}
+
 .register-domain-container {
   border-radius: 5px;
   grid-area: main;
@@ -13,6 +17,20 @@
   .submit-button {
     margin: 0 auto;
     text-align: center;
+    width: 300px;
+  }
+}
+
+
+.back-button {
+  display: flex;
+  justify-content: center;
+  margin: 36px 0 25px;
+
+  button {
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 20px;
     width: 300px;
   }
 }

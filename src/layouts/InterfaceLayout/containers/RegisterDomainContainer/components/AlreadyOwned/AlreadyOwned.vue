@@ -22,7 +22,7 @@
       <p class="content"> {{ resolverAddress }} </p>
     </div>
 
-    <div class="button-container">
+    <div class="back-button">
       <button @click="cancel">{{ $t('common.back') }}</button>
     </div>
 

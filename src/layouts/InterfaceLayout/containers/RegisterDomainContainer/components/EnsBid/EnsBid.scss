@@ -1,4 +1,8 @@
-@import '~@/scss/GlobalVariables';
+@import '../../RegisterDomainContainer';
+
+.name-available-container {
+  @extend %template-container;
+}
 
 .content-header {
   border-bottom: 1px dashed $light-grey-3;

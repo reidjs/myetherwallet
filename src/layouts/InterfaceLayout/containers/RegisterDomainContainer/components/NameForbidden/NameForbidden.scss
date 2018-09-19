@@ -1,7 +1,8 @@
-@import '~@/scss/GlobalVariables';
+@import '../../RegisterDomainContainer';
 
 .name-forbidden-container {
-  margin: 20px 59px;
+  @extend %template-container;
+  min-height: 600px;
 
   h3 {
     color: $light-orange-1;

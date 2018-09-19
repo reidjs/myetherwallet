@@ -157,7 +157,6 @@ export default {
       console.log('Lmao');
     },
     clearInputs() {
-      this.domainName = '';
       this.loading = false;
       this.uiState = 'initial';
       this.bidAmount = 0;

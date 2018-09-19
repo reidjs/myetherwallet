@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-    <div class="send-form">
+    <form class="send-form">
       <div class="title-container">
         <div class="title">
           <h4>{{ $t('interface.registerDns') }}</h4>
@@ -20,17 +20,17 @@
         v-show="domainName.length <= 7 && domainName !== ''"
         class="erroredMsg"> Domain name is less than 7 characters. </p>
       <div class="submit-button-container">
-        <div
+        <button
           :class="[domainName.length <= 7 ? 'disabled' : '','submit-button large-round-button-green-filled clickable']"
-          @click="checkDomain">
+          @click.prevent="checkDomain">
           <span v-show="!loading"> {{ $t('interface.checkDomain') }} </span>
           <i
             v-show="loading"
             class="fa fa-spinner fa-spin"/>
-        </div>
+        </button>
 
       </div>
-    </div>
+    </form>
 
     <div class="flex-container">
       <div class="title-container">

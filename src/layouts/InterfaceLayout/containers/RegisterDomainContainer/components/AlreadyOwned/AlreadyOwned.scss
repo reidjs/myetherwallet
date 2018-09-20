@@ -1,8 +1,8 @@
 @import '../../RegisterDomainContainer';
 
-
 .already-owned-container {
   @extend %template-container;
+
   padding-bottom: 25px;
 
   h3 {

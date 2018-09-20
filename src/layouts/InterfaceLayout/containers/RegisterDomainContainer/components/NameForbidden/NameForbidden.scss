@@ -2,6 +2,7 @@
 
 .name-forbidden-container {
   @extend %template-container;
+
   min-height: 600px;
 
   h3 {

@@ -44,7 +44,8 @@ import NameForbidden from './components/NameForbidden';
 import InitialState from './components/InitialState';
 import AlreadyOwned from './components/AlreadyOwned';
 import RegistrarAbi from '@/helpers/registrarAbi';
-import { Wordlist, Misc } from '@/helpers';
+import { Misc } from '@/helpers';
+import bip39 from 'bip39';
 
 export default {
   components: {
@@ -189,11 +190,11 @@ export default {
     generateKeyPhrase() {
       const wordsArray = [];
       const min = 0;
-      const max = Wordlist.length;
+      const max = bip39.wordlists.EN.length;
 
       for (let i = 0; i < 3; i++) {
         wordsArray.push(
-          Wordlist[Math.floor(Math.random() * (max - min + 1)) + min]
+          bip39.wordlists.EN[Math.floor(Math.random() * (max - min + 1)) + min]
         );
       }
 

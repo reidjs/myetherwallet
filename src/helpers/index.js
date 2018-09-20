@@ -5,7 +5,6 @@ import Blockies from './blockies';
 import MessageUtil from './messageUtil';
 import Misc from './misc';
 import CreateJsonWallet from './createJsonWallet';
-import Wordlist from './wordlist';
 
 export {
   Wallet,
@@ -14,6 +13,5 @@ export {
   Blockies,
   MessageUtil,
   Misc,
-  CreateJsonWallet,
-  Wordlist
+  CreateJsonWallet
 };

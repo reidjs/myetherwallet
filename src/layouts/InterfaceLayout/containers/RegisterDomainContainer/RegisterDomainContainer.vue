@@ -15,6 +15,7 @@
       v-show="uiState === 'initial'"
       :domain-buy-button-click="domainBuyButtonClick"
       :check-domain="checkDomain"
+      :domain-name="domainName"
       :loading="loading"
       @domainNameChange="updateDomainName"
     />
@@ -42,7 +43,6 @@ import EnsBid from './components/EnsBid';
 import NameForbidden from './components/NameForbidden';
 import InitialState from './components/InitialState';
 import AlreadyOwned from './components/AlreadyOwned';
-import EnsAbi from '@/helpers/ensAbi';
 import RegistrarAbi from '@/helpers/registrarAbi';
 import { Wordlist, Misc } from '@/helpers';
 
@@ -65,30 +65,31 @@ export default {
       domainName: '',
       loading: false,
       uiState: 'initial',
-      bidAmount: 0,
-      bidMask: 0,
+      bidAmount: 0.01,
+      bidMask: 0.02,
       nameHash: '',
       labelHash: '',
       owner: '',
       resolverAddress: '',
       deedOwner: '',
-      secretPhrase: ''
+      secretPhrase: '',
+      ensContractMethods: function() {}
     };
   },
   methods: {
-    async forEth() {
+    async checkDomain() {
+      const network = this.$store.state.network;
       const web3 = this.$store.state.web3;
       const ensContract = new web3.eth.Contract(
-        EnsAbi,
-        '0x314159265dd8dbb310642f98f50c066173c1259b'
+        network.type.ensAbi,
+        network.type.ensResolver
       );
 
+      this.loading = true;
       this.labelHash = web3.utils.sha3(this.domainName);
-
       const ownerAddress = await ensContract.methods
         .owner(Misc.nameHash('eth', web3))
         .call();
-
       const auctionRegistrarContract = new web3.eth.Contract(
         RegistrarAbi,
         ownerAddress
@@ -104,17 +105,6 @@ export default {
         });
 
       this.processResult(domainStatus);
-    },
-    async checkDomain() {
-      const network = this.$store.state.network;
-      this.loading = true;
-      switch (network.type.name) {
-        case 'ETH':
-          await this.forEth();
-          break;
-        default:
-          console.log('Lmao');
-      }
     },
     processResult(res) {
       switch (res[0]) {
@@ -177,7 +167,7 @@ export default {
       this.loading = false;
     },
     createBid() {
-      console.log('Lmao');
+      this.loading = false;
     },
     clearInputs() {
       this.loading = false;
@@ -190,6 +180,7 @@ export default {
       this.resolverAddress = '';
       this.deedOwner = '';
       this.secretPhrase = '';
+      this.domainName = '';
     },
     domainBuyButtonClick() {},
     updateSecretPhrase(e) {

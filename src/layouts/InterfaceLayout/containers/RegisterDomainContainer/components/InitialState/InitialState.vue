@@ -9,19 +9,19 @@
       </div>
       <div class="the-form domain-name">
         <input
-          v-model="domainName"
-          :class="[domainName.length <= 7 && domainName !== '' ? 'errored' : '']"
+          v-model="localDomainName"
+          :class="[localDomainName.length < 7 && localDomainName !== '' ? 'errored' : '']"
           type="text"
           name=""
           placeholder="Please Enter at Least 7 Characters" >
         <span>.eth</span>
       </div>
       <p
-        v-show="domainName.length <= 7 && domainName !== ''"
+        v-show="localDomainName.length < 7 && localDomainName !== ''"
         class="erroredMsg"> Domain name is less than 7 characters. </p>
       <div class="submit-button-container">
         <button
-          :class="[domainName.length <= 7 ? 'disabled' : '','submit-button large-round-button-green-filled clickable']"
+          :class="[localDomainName.length < 7 ? 'disabled' : '','submit-button large-round-button-green-filled clickable']"
           @click.prevent="checkDomain">
           <span v-show="!loading"> {{ $t('interface.checkDomain') }} </span>
           <i
@@ -172,16 +172,23 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    domainName: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
-      domainName: ''
+      localDomainName: this.domainName
     };
   },
   watch: {
-    domainName(newVal) {
+    localDomainName(newVal) {
       this.$emit('domainNameChange', newVal);
+    },
+    domainName(newVal) {
+      this.localDomainName = newVal;
     }
   },
   methods: {

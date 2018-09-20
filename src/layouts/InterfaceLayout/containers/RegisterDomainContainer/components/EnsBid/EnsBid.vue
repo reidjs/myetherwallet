@@ -18,8 +18,12 @@
         <label for="bidMask">Bid Mask</label>
         <input
           v-model="bidMask"
+          :class="[bidAmount >= bidMask ? 'errored': '']"
           type="number"
           name="bidMask">
+        <p 
+          v-show="bidAmount >= bidMask" 
+          class="erroredMsg">We recommend having your Bid mask higher than your Bid amount.</p>
       </div>
       <div class="input-container">
         <label for="secretPhrase">Secret Phrase</label>
@@ -53,11 +57,11 @@ export default {
     },
     bidAmount: {
       type: Number,
-      default: 0
+      default: 0.01
     },
     bidMask: {
       type: Number,
-      default: 0
+      default: 0.02
     },
     secretPhrase: {
       type: String,

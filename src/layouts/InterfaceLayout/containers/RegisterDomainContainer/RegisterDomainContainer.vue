@@ -73,39 +73,28 @@ export default {
       owner: '',
       resolverAddress: '',
       deedOwner: '',
-      secretPhrase: '',
-      ensContractMethods: function() {}
+      secretPhrase: ''
     };
   },
   methods: {
     async checkDomain() {
-      const network = this.$store.state.network;
       const web3 = this.$store.state.web3;
-      const ensContract = new web3.eth.Contract(
-        network.type.ensAbi,
-        network.type.ensResolver
-      );
-
       this.loading = true;
       this.labelHash = web3.utils.sha3(this.domainName);
-      const ownerAddress = await ensContract.methods
-        .owner(Misc.nameHash('eth', web3))
-        .call();
+      const ownerAddress = await this.$store.state.ens.owner('eth');
       const auctionRegistrarContract = new web3.eth.Contract(
         RegistrarAbi,
         ownerAddress
       );
-      const domainStatus = await auctionRegistrarContract.methods
-        .entries(this.labelHash)
-        .call()
-        .then(res => {
-          return res;
-        })
-        .catch(err => {
-          console.log(err);
-        });
 
-      this.processResult(domainStatus);
+      try {
+        const domainStatus = await auctionRegistrarContract.methods
+          .entries(this.labelHash)
+          .call();
+        this.processResult(domainStatus);
+      } catch (e) {
+        console.log(e);
+      }
     },
     processResult(res) {
       switch (res[0]) {
@@ -173,8 +162,8 @@ export default {
     clearInputs() {
       this.loading = false;
       this.uiState = 'initial';
-      this.bidAmount = 0;
-      this.bidMask = 0;
+      this.bidAmount = 0.01;
+      this.bidMask = 0.02;
       this.nameHash = '';
       this.labelHash = '';
       this.owner = '';

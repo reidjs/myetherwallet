@@ -50,6 +50,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { parseTokensHex } from '@/helpers';
+import ENS from 'ethereum-ens';
 
 import DappsContainer from './containers/DappsContainer';
 import DeployContractContainer from './containers/DeployContractContainer';
@@ -344,7 +345,18 @@ export default {
           this.getBalance();
           this.pollBlock = setInterval(this.getBlock, 10000);
           this.setTokens();
+          this.setENS();
         }
+      }
+    },
+    setENS() {
+      if (this.wallet.identifier === 'Web3') {
+        this.$store.dispatch('setENS', new ENS(window.web3.currentProvider));
+      } else {
+        this.$store.dispatch(
+          'setENS',
+          new ENS(this.$store.state.web3.currentProvider)
+        );
       }
     }
   }

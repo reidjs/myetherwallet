@@ -3,7 +3,7 @@ const ImageminPlugin = require('imagemin-webpack-plugin').default
 const webpack = require('webpack');
 
 module.exports = {
-  baseUrl: '/',
+  baseUrl: './',
   configureWebpack: {
     node: {
       process: true
@@ -13,7 +13,7 @@ module.exports = {
     },
     devServer: {
       https: true,
-      host: '0.0.0.0',
+      host: 'localhost',
       hotOnly: true,
       port: 8080
     },

@@ -87,6 +87,9 @@ export default {
       isValid: false
     };
   },
+  mounted() {
+    this.isValid = this.checkAddress();
+  },
   methods: {
     generateInfo() {
       this.moreInfoGenerated = true;
@@ -111,9 +114,6 @@ export default {
       return this.$store.state.web3.utils.isAddress(
         this.$store.state.wallet.getAddressString()
       );
-    },
-    mounted() {
-      this.isValid = this.checkAddress();
     }
   }
 };

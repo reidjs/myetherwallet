@@ -27,10 +27,22 @@
 <script>
 import { BasicWallet } from '@/wallets';
 export default {
+  props: {
+    queryPrivateKey: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       privateKey: ''
     };
+  },
+  mounted() {
+    if (this.queryPrivateKey) {
+      this.privateKey = this.queryPrivateKey;
+      this.unlockWallet();
+    }
   },
   methods: {
     unlockWallet() {

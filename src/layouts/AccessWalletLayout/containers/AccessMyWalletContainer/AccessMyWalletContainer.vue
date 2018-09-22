@@ -38,7 +38,10 @@
       ref="passwordModal"
       :file="file"/>
 
-    <private-key-modal ref="privatekeyModal"/>
+    <private-key-modal 
+      v-if="privateKey"
+      ref="privatekeyModal" 
+      :query-private-key="privateKey"/>
 
     <mnemonic-modal
       ref="mnemonicPhraseModal"
@@ -125,6 +128,7 @@ export default {
       phrase: '',
       hardwareWallet: {},
       hardwareAddresses: [],
+      privateKey: null,
       walletConstructor: function() {},
       hardwareBrand: '',
       buttons: [
@@ -166,6 +170,11 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    // const privateKey = this.$route.query.privateKey
+    this.privateKey = this.$route.query.privateKey;
+    // if (this.$route.query.privateKey)
   },
   methods: {
     mewConnectModalOpen() {

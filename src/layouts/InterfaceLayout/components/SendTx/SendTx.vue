@@ -30,7 +30,7 @@
       <div class="submit-button-container">
         <div
           class="submit-button large-round-button-green-filled clickable"
-          @click="sendTx">
+          @click.prevent="sendTx">
           Send Transaction
         </div>
         <interface-bottom-text
@@ -78,9 +78,12 @@ export default {
       document.execCommand('copy');
     },
     sendTx() {
+      // console.log('this.signedTx', this.signedTx);
       this.$store.state.web3.eth
         .sendSignedTransaction(this.signedTx)
-        .on('receipt', () => {})
+        .on('receipt', () => {
+          // console.log('res', res);
+        })
         .then(() => {
           this.$children[0].$refs.success.show();
           // eslint-disable-next-line no-console

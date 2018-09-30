@@ -47,6 +47,7 @@ const SET_GAS_PRICE = function(state, val) {
 
 const SET_WEB3_INSTANCE = function(state, web3) {
   state.web3 = web3;
+  // console.log('web3', web3);
 };
 
 const SWITCH_NETWORK = function(state, networkObj) {

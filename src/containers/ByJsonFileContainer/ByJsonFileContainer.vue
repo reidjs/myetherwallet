@@ -139,7 +139,7 @@ export default {
       }
     };
     worker.onerror = function() {
-      console.log('onerror received from worker');
+      // console.log('onerror received from worker');
     };
   }
 };

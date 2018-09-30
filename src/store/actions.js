@@ -1,4 +1,5 @@
 import { overide, WalletWrapper } from '@/wallets';
+import Web3 from 'web3';
 
 const addNotification = function({ commit, state }, val) {
   const newNotif = {};
@@ -39,12 +40,17 @@ const createAndSignTx = function({ commit }, val) {
   commit('CREATE_AND_SIGN_TX', val);
 };
 
-const decryptWallet = function({ commit, state }, wallet) {
+const decryptWallet = function({ commit }, wallet) {
   const wrappedWallet = new WalletWrapper(wallet);
-  const _web3 = state.web3;
-  overide(_web3, wrappedWallet, this._vm.$eventHub);
+  const web3Instance = new Web3(
+    new Web3.providers.HttpProvider(
+      'https://mainnet.infura.io/d4n94gUUYv9NWJnUPDdL'
+    )
+  );
+  // const _web3 = state.web3;
+  overide(web3Instance, wrappedWallet, this._vm.$eventHub);
   commit('DECRYPT_WALLET', wrappedWallet);
-  commit('SET_WEB3_INSTANCE', _web3);
+  commit('SET_WEB3_INSTANCE', web3Instance);
 };
 
 const setAccountBalance = function({ commit }, balance) {
@@ -60,9 +66,16 @@ const setState = function({ commit }, stateObj) {
 };
 
 const setWeb3Instance = function({ commit, state }, web3) {
+  // console.log('web3.eth', web3.eth);
   if (web3.eth === undefined) {
     // eslint-disable-next-line
-    const web3Instance = new web3(new web3.providers.HttpProvider(state.network.url));
+    // const web3Instance = new web3(new web3.providers.HttpProvider(state.network.url));
+    const web3Instance = new web3(
+      new web3.providers.HttpProvider(
+        'https://mainnet.infura.io/d4n94gUUYv9NWJnUPDdL'
+      )
+    );
+    // console.log('web3Instance', web3Instance);
     commit(
       'SET_WEB3_INSTANCE',
       overide(web3Instance, state.wallet, this._vm.$eventHub)
